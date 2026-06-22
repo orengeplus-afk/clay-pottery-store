@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://api.dicebear.com/7.x/initials/svg?seed=CLAY" />
+    <link rel="icon" type="image/svg+xml" href="https://api.dicebear.com/7.x/initials/svg?seed=PAWS" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CLAY — Handcrafted Ceramics & Pottery</title>
-    <!-- Google Fonts: Cormorant Garamond (Serif) & Plus Jakarta Sans (Sans-serif) -->
+    <title>PAWS & CLAWS — Premium Pet Supplies & Grooming Spa 🐾</title>
+    <!-- Google Fonts: Quicksand (Rounded headers) & Plus Jakarta Sans (Clean UI body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for minimal icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for modern icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   </head>
   <body>
@@ -20,21 +20,25 @@
       <!-- Header / Navigation -->
       <header class="header">
         <div class="header-container">
-          <a href="#" class="logo">C L A Y</a>
+          <a href="#" class="logo">
+            <i class="fa-solid fa-paw logo-icon"></i>
+            <span>Paws & Claws</span>
+          </a>
           
           <nav class="nav-menu">
             <a href="#shop" class="nav-link">Shop</a>
-            <a href="#philosophy" class="nav-link">Philosophy</a>
-            <a href="#process" class="nav-link">Process</a>
-            <a href="#journal" class="nav-link">Journal</a>
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#testimonials" class="nav-link">Reviews</a>
+            <a href="#" class="nav-link" id="nav-book-btn">Book Grooming</a>
           </nav>
 
           <div class="header-actions">
-            <button class="action-btn" id="search-toggle-btn">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+            <div class="search-box">
+              <input type="text" placeholder="Search dog food, toys..." id="search-input">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </div>
             <button class="action-btn cart-btn" id="cart-toggle-btn">
-              <i class="fa-solid fa-bag-shopping"></i>
+              <i class="fa-solid fa-cart-shopping"></i>
               <span class="cart-count" id="cart-badge-count">0</span>
             </button>
           </div>
@@ -45,7 +49,7 @@
       <div class="cart-overlay" id="cart-overlay"></div>
       <aside class="cart-drawer" id="cart-drawer">
         <div class="cart-drawer-header">
-          <h3>Shopping Bag</h3>
+          <h3>My Shopping Bag 🐾</h3>
           <button class="close-drawer-btn" id="cart-close-btn">
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -54,9 +58,9 @@
         <div class="cart-drawer-items" id="cart-drawer-items-list">
           <!-- Dynamically inserted cart items -->
           <div class="cart-empty-state" id="cart-empty-state">
-            <i class="fa-solid fa-bag-shopping"></i>
-            <p>Your shopping bag is empty.</p>
-            <a href="#shop" class="btn-shop" id="cart-empty-shop-btn">Continue Shopping</a>
+            <i class="fa-solid fa-basket-shopping"></i>
+            <p>Your shopping basket is empty.</p>
+            <a href="#shop" class="btn-shop" id="cart-empty-shop-btn">Start Shopping</a>
           </div>
         </div>
 
@@ -65,10 +69,74 @@
             <span>Subtotal</span>
             <span id="cart-subtotal-price">$0.00</span>
           </div>
-          <p class="cart-note">Shipping & taxes calculated at checkout.</p>
-          <button class="checkout-btn" id="checkout-submit-btn">Proceed to Checkout</button>
+          <p class="cart-note">🐾 Every purchase supports local animal shelters!</p>
+          <button class="checkout-btn" id="checkout-submit-btn">Complete Order</button>
         </div>
       </aside>
+
+      <!-- Grooming Booking Modal -->
+      <div class="modal-overlay" id="booking-modal">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h3><i class="fa-solid fa-scissors"></i> Book Grooming Spa</h3>
+            <button class="close-modal-btn" id="booking-close-btn">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <form id="booking-form">
+            <div class="form-group">
+              <label for="book-service">Choose Service</label>
+              <select id="book-service" class="form-control" required>
+                <option value="grooming">Premium Grooming Spa (Bath, Trim & Styling)</option>
+                <option value="bath">Fluffy Bubble Bath & Dry</option>
+                <option value="vet">On-demand Vet Checkup & Vaccination</option>
+                <option value="walking">Dog Daycare & Daily Walking</option>
+              </select>
+            </div>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="book-date">Select Date</label>
+                <input type="date" id="book-date" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="book-time">Select Time</label>
+                <select id="book-time" class="form-control" required>
+                  <option value="09:00">09:00 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="13:00">01:00 PM</option>
+                  <option value="15:00">03:00 PM</option>
+                  <option value="17:00">05:00 PM</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="book-pet-type">Pet Type</label>
+                <select id="book-pet-type" class="form-control" required>
+                  <option value="dog">Dog 🐶</option>
+                  <option value="cat">Cat 🐱</option>
+                  <option value="other">Other Pet 🐹</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="book-pet-name">Pet's Name</label>
+                <input type="text" id="book-pet-name" class="form-control" placeholder="e.g. Buddy, Fluffy" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="book-notes">Special Instructions</label>
+              <textarea id="book-notes" class="form-control" rows="2" placeholder="Any allergies, behaviors, or styling requests..." style="resize: none;"></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary" id="booking-submit-btn">
+              <span>Confirm Appointment</span> <i class="fa-solid fa-calendar-check"></i>
+            </button>
+          </form>
+        </div>
+      </div>
 
       <!-- Main Contents -->
       <main>
@@ -77,60 +145,73 @@
         <section class="hero-section">
           <div class="hero-grid">
             <div class="hero-text-col">
-              <span class="hero-tag">Est. 2026</span>
-              <h1 class="hero-title">Hand-thrown ceramics for slow living</h1>
-              <p class="hero-subtitle">Every piece is formed, glazed, and kiln-fired by hand in our studio, highlighting the natural beauty of raw textures and organic shapes.</p>
+              <div class="hero-badges">
+                <span class="hero-badge"><i class="fa-solid fa-bone"></i> 100% Organic Treats</span>
+                <span class="hero-badge"><i class="fa-solid fa-truck"></i> Fast Paw-delivery</span>
+              </div>
+              <h1 class="hero-title">Your pet deserves the very best.</h1>
+              <p class="hero-subtitle">Discover premium organic foods, hand-picked toys, and styling grooming services tailored to keep your furry companions happy and healthy.</p>
               <div class="hero-actions-row">
-                <a href="#shop" class="btn-primary">Explore Collection</a>
-                <a href="#philosophy" class="btn-text">Read Our Story <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#shop" class="btn-primary">Shop Supplies</a>
+                <button class="btn-secondary" id="hero-book-btn">Book Grooming</button>
               </div>
             </div>
             <div class="hero-img-col">
               <div class="hero-img-wrapper">
-                <img src="/clay_hero.png" alt="Clay Ceramics Hero" class="hero-img">
+                <img src="/pet_hero.png" alt="Happy Dog and Cat" class="hero-img">
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 2. BRAND PHILOSOPHY SECTION -->
-        <section class="philosophy-section" id="philosophy">
-          <div class="section-container">
-            <span class="section-tag">Our Philosophy</span>
-            <h2 class="section-title">Beauty in imperfection</h2>
-            <div class="philosophy-grid">
-              <div class="philosophy-text">
-                <p>We believe objects should carry stories. In a world of mass production, we invite you to embrace the subtle irregularities of hand-crafted pottery. The slight spiral of the potter's fingers, the variation in glaze color, and the raw sandy base make each item singular and personal.</p>
+        <!-- 2. QUICK CATEGORIES CAROUSEL -->
+        <section class="categories-section">
+          <div class="section-container" style="padding-top: 40px; padding-bottom: 40px;">
+            <div class="categories-grid">
+              <div class="category-item" data-filter-cat="dog">
+                <div class="category-icon-box dog-bg">
+                  <i class="fa-solid fa-dog"></i>
+                </div>
+                <span>Dog Supplies</span>
               </div>
-              <div class="philosophy-details">
-                <div class="detail-item">
-                  <span class="detail-num">01 /</span>
-                  <h4>Earthy Raw Sourcing</h4>
-                  <p>Our clays are locally sourced, selecting sand, silt, and iron-rich stonewares for high durability and textured finishes.</p>
+              <div class="category-item" data-filter-cat="cat">
+                <div class="category-icon-box cat-bg">
+                  <i class="fa-solid fa-cat"></i>
                 </div>
-                <div class="detail-item">
-                  <span class="detail-num">02 /</span>
-                  <h4>Kiln-Fired Rituals</h4>
-                  <p>Fired twice up to 1250°C. Our reduction firing processes give natural earth-toned speckles to our clay bodies.</p>
+                <span>Cat Supplies</span>
+              </div>
+              <div class="category-item" data-filter-cat="bird">
+                <div class="category-icon-box bird-bg">
+                  <i class="fa-solid fa-crow"></i>
                 </div>
+                <span>Bird Supplies</span>
+              </div>
+              <div class="category-item" data-filter-cat="small">
+                <div class="category-icon-box small-bg">
+                  <i class="fa-solid fa-shuttle-space" style="transform: rotate(45deg); display: none;"></i>
+                  <i class="fa-solid fa-shrimp" style="display: none;"></i>
+                  <i class="fa-solid fa-cookie"></i>
+                </div>
+                <span>Small Animals</span>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 3. CURATED COLLECTION (SHOP CATALOG) -->
+        <!-- 3. CURATED SHOP CATALOG -->
         <section class="shop-section" id="shop">
           <div class="section-container">
             <div class="shop-header">
               <div>
-                <span class="section-tag">Curated Pieces</span>
-                <h2 class="section-title font-serif">Selected Works</h2>
+                <span class="section-tag">Pawsome Catalog</span>
+                <h2 class="section-title">Best Sellers & Supplies</h2>
               </div>
               <div class="shop-filter-tabs" id="shop-tabs-container">
                 <button class="filter-tab active" data-filter="all">All</button>
-                <button class="filter-tab" data-filter="vases">Vases</button>
-                <button class="filter-tab" data-filter="tableware">Tableware</button>
-                <button class="filter-tab" data-filter="incense">Incense</button>
+                <button class="filter-tab" data-filter="food">Food</button>
+                <button class="filter-tab" data-filter="toys">Toys</button>
+                <button class="filter-tab" data-filter="beds">Beds</button>
+                <button class="filter-tab" data-filter="accessories">Accessories</button>
               </div>
             </div>
 
@@ -141,73 +222,104 @@
           </div>
         </section>
 
-        <!-- 4. SIGNATURE PRODUCT DETAIL SPOTLIGHT -->
-        <section class="spotlight-section">
-          <div class="spotlight-grid">
-            <div class="spotlight-img-col">
-              <img src="/clay_vase.png" alt="Terra Clay Vase" class="spotlight-img">
+        <!-- 4. SPA SERVICES SECTION -->
+        <section class="services-section" id="services">
+          <div class="section-container">
+            <div style="text-align: center; margin-bottom: 60px;">
+              <span class="section-tag">Care & Grooming</span>
+              <h2 class="section-title" style="margin-bottom: 12px;">Premium Pet Services</h2>
+              <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Our certified groomers and pet care experts treat your companions with gentle love and caution.</p>
             </div>
-            <div class="spotlight-text-col">
-              <span class="section-tag">Spotlight Piece</span>
-              <h2 class="spotlight-title">The Terra Silt Vase</h2>
-              <p class="spotlight-desc">Our signature minimalist vase. Crafted from high-grain terracotta clay, the raw exterior texture contrasts elegantly with the satin cream glazed interior. Designed to hold single dried branches or full floral arrangements.</p>
-              
-              <div class="spotlight-accordion">
-                <details open class="accordion-item">
-                  <summary>Dimensions & Details</summary>
-                  <div class="accordion-content">
-                    <ul>
-                      <li>Height: 22 cm | Diameter: 12 cm</li>
-                      <li>Material: Raw Terracotta Stoneware</li>
-                      <li>Origin: Hand-thrown in our Seoul studio</li>
-                    </ul>
-                  </div>
-                </details>
-                <details class="accordion-item">
-                  <summary>Care Instructions</summary>
-                  <div class="accordion-content">
-                    <p>Hand wash recommended. Water-resistant glazed interior. Wipe exterior clay with a damp cloth if needed to remove dust.</p>
-                  </div>
-                </details>
+            
+            <div class="services-grid">
+              <!-- Service 1 -->
+              <div class="service-card">
+                <div class="service-badge"><i class="fa-solid fa-sparkles"></i> Best Seller</div>
+                <div class="service-icon-wrapper spa-bg">
+                  <i class="fa-solid fa-shower"></i>
+                </div>
+                <h3>Grooming Spa & Bath</h3>
+                <p>Gentle bubble bath with hypoallergenic shampoos, nail trimming, ear cleaning, and expert fur styling.</p>
+                <div class="service-footer">
+                  <span class="price">From $45</span>
+                  <button class="btn-book-service" data-service-select="grooming">Book Now</button>
+                </div>
               </div>
 
-              <div class="spotlight-price-row">
-                <span class="price">$120.00</span>
-                <button class="btn-primary" id="spotlight-add-btn" data-id="p1">Add to Bag</button>
+              <!-- Service 2 -->
+              <div class="service-card">
+                <div class="service-icon-wrapper vet-bg">
+                  <i class="fa-solid fa-stethoscope"></i>
+                </div>
+                <h3>Vet Consultations</h3>
+                <p>Routine wellness checkups, weight assessments, vaccinations, and nutrition advice from certified vets.</p>
+                <div class="service-footer">
+                  <span class="price">From $60</span>
+                  <button class="btn-book-service" data-service-select="vet">Book Now</button>
+                </div>
+              </div>
+
+              <!-- Service 3 -->
+              <div class="service-card">
+                <div class="service-icon-wrapper walking-bg">
+                  <i class="fa-solid fa-dog"></i>
+                </div>
+                <h3>Daycare & Walking</h3>
+                <p>Social playtime inside our spacious indoor pet parks, custom meals, and daily energy-burning walks.</p>
+                <div class="service-footer">
+                  <span class="price">From $25</span>
+                  <button class="btn-book-service" data-service-select="walking">Book Now</button>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 5. PROCESS/JOURNAL JOURNAL SECTION -->
-        <section class="process-section" id="process">
+        <!-- 5. TESTIMONIALS SECTION -->
+        <section class="testimonials-section" id="testimonials">
           <div class="section-container">
-            <span class="section-tag">The Studio Craft</span>
-            <h2 class="section-title">The pottery process</h2>
-            
-            <div class="process-steps-grid">
-              <div class="process-card">
-                <div class="process-img-wrapper">
-                  <img src="https://images.unsplash.com/photo-1565192647048-f997ded87ab0?auto=format&fit=crop&q=80&w=500" alt="Clay Throwing">
+            <div style="text-align: center; margin-bottom: 60px;">
+              <span class="section-tag">Happy Clients</span>
+              <h2 class="section-title">Paw-rent Testimonials</h2>
+            </div>
+
+            <div class="testimonials-grid">
+              <!-- Review 1 -->
+              <div class="testimonial-card">
+                <div class="rating-stars">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
                 </div>
-                <h3>1. Throwing</h3>
-                <p>Centering and shaping the raw, moist clay body on the spinning wheel. Hand movements determine the flow of the silhouette.</p>
+                <p class="review-text">"Paws & Claws Grooming Spa is amazing! Milo came out smelling like lavender and looking extremely dapper. The staff is so gentle with dogs."</p>
+                <div class="client-info">
+                  <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=100" alt="Milo Dog" class="client-avatar">
+                  <div>
+                    <h4>Sarah K.</h4>
+                    <span>Mom of Milo (Golden Retriever)</span>
+                  </div>
+                </div>
               </div>
 
-              <div class="process-card">
-                <div class="process-img-wrapper">
-                  <img src="https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?auto=format&fit=crop&q=80&w=500" alt="Glaze Painting">
+              <!-- Review 2 -->
+              <div class="testimonial-card">
+                <div class="rating-stars">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
                 </div>
-                <h3>2. Glazing</h3>
-                <p>After bisque firing, we dip or brush the pieces in custom-mixed glaze formulas. Interior glazing ensures water retention.</p>
-              </div>
-
-              <div class="process-card">
-                <div class="process-img-wrapper">
-                  <img src="https://images.unsplash.com/photo-1606744837616-56c9a5c6a6eb?auto=format&fit=crop&q=80&w=500" alt="Kiln Firing">
+                <p class="review-text">"The Orthopedic bed is a lifesaver. My senior cat has arthritis, and he sleeps on it all day. The material is premium quality and easily washable!"</p>
+                <div class="client-info">
+                  <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=100" alt="Oscar Cat" class="client-avatar">
+                  <div>
+                    <h4>David M.</h4>
+                    <span>Dad of Oscar (Tabby)</span>
+                  </div>
                 </div>
-                <h3>3. Kiln Firing</h3>
-                <p>Placing pieces in high-temperature kilns. The chemical heat reaction bonds raw oxides, creating speckled textures.</p>
               </div>
             </div>
           </div>
@@ -219,34 +331,36 @@
       <footer class="footer">
         <div class="footer-container">
           <div class="footer-brand-col">
-            <h3 class="footer-logo">C L A Y</h3>
-            <p>Thoughtfully crafted pottery designed to bring quiet beauty into your daily spaces.</p>
+            <h3 class="footer-logo">
+              <i class="fa-solid fa-paw"></i> Paws & Claws
+            </h3>
+            <p>Providing premium organic food, quality toys, and grooming therapies for your happy pet companions.</p>
             <div class="footer-socials">
               <a href="#"><i class="fa-brands fa-instagram"></i></a>
               <a href="#"><i class="fa-brands fa-pinterest"></i></a>
-              <a href="#"><i class="fa-brands fa-behance"></i></a>
+              <a href="#"><i class="fa-brands fa-facebook"></i></a>
             </div>
           </div>
 
           <div class="footer-nav-col">
-            <h4>Shop</h4>
-            <a href="#shop">All Products</a>
-            <a href="#shop">Vases</a>
-            <a href="#shop">Tableware</a>
-            <a href="#shop">Ceramics</a>
+            <h4>Shop Catalog</h4>
+            <a href="#shop">Organic Food</a>
+            <a href="#shop">Furry Toys</a>
+            <a href="#shop">Cozy Beds</a>
+            <a href="#shop">Accessories</a>
           </div>
 
           <div class="footer-nav-col">
-            <h4>Support</h4>
-            <a href="#">Care Guide</a>
-            <a href="#">Shipping & Returns</a>
-            <a href="#">Stockists</a>
-            <a href="#">Contact Us</a>
+            <h4>Care Services</h4>
+            <a href="#" class="open-book-btn">Grooming Spa</a>
+            <a href="#" class="open-book-btn">Vet Consultations</a>
+            <a href="#" class="open-book-btn">Daycare Booking</a>
+            <a href="#">Pet Care Guide</a>
           </div>
 
           <div class="footer-newsletter-col">
-            <h4>Newsletter</h4>
-            <p>Subscribe to receive notifications about kiln-openings, new drops, and stories from the studio.</p>
+            <h4>Join the Pack</h4>
+            <p>Subscribe to get 10% off your first pet supplies order and vet tips.</p>
             <form class="newsletter-form" id="newsletter-form">
               <input type="email" placeholder="your@email.com" class="newsletter-input" required>
               <button type="submit" class="newsletter-submit-btn"><i class="fa-solid fa-arrow-right"></i></button>
@@ -255,8 +369,8 @@
         </div>
 
         <div class="footer-bottom">
-          <p>&copy; 2026 CLAY Ceramics Studio. All rights reserved.</p>
-          <p>Hand-built in pair programming with Antigravity AI.</p>
+          <p>&copy; 2026 Paws & Claws Pet Supplies. All rights reserved.</p>
+          <p>Made with love & pair programming with Antigravity AI.</p>
         </div>
       </footer>
     </div>

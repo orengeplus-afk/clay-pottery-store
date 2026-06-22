@@ -6,51 +6,83 @@ import './style.css';
 const PRODUCTS = [
   {
     id: "p1",
-    name: "Terra Silt Vase",
-    category: "vases",
-    price: 120.00,
-    imageUrl: "/clay_vase.png",
-    tag: "Hand-thrown Vase"
+    name: "Organic Salmon Dog Treats",
+    category: "food",
+    petType: "dog",
+    price: 18.99,
+    imageUrl: "/pet_treats.png",
+    tag: "Dogs",
+    rating: 5
   },
   {
     id: "p2",
-    name: "Speckled Oatmeal Bowl",
-    category: "tableware",
-    price: 48.00,
-    imageUrl: "/clay_bowl.png",
-    tag: "Stoneware Bowl"
+    name: "Orthopedic Memory Foam Bed",
+    category: "beds",
+    petType: "dog", // also cat
+    price: 64.99,
+    imageUrl: "/pet_bed.png",
+    tag: "Dogs & Cats",
+    rating: 5
   },
   {
     id: "p3",
-    name: "Oatmeal Tea Cup",
-    category: "tableware",
-    price: 38.00,
-    imageUrl: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=500",
-    tag: "Glazed Cup"
+    name: "Interactive Smart Laser Toy",
+    category: "toys",
+    petType: "cat",
+    price: 24.99,
+    imageUrl: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?auto=format&fit=crop&q=80&w=400",
+    tag: "Cats",
+    rating: 4
   },
   {
     id: "p4",
-    name: "Silt Incense Dish",
-    category: "incense",
-    price: 42.00,
-    imageUrl: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&q=80&w=500",
-    tag: "Clay Holder"
+    name: "Self-Cleaning Water Fountain",
+    category: "accessories",
+    petType: "cat", // also dog
+    price: 39.99,
+    imageUrl: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&q=80&w=400",
+    tag: "Dogs & Cats",
+    rating: 5
   },
   {
     id: "p5",
-    name: "Earth Serving Plate",
-    category: "tableware",
-    price: 68.00,
-    imageUrl: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80&w=500",
-    tag: "Matte Plate"
+    name: "Eco-Friendly Hemp Collar",
+    category: "accessories",
+    petType: "dog",
+    price: 14.99,
+    imageUrl: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&q=80&w=400",
+    tag: "Dogs",
+    rating: 4
   },
   {
     id: "p6",
-    name: "Tall Ash Vase",
-    category: "vases",
-    price: 145.00,
-    imageUrl: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&q=80&w=500",
-    tag: "Tall Ceramic Vase"
+    name: "Feather Cat Teaser Toy",
+    category: "toys",
+    petType: "cat",
+    price: 8.49,
+    imageUrl: "https://images.unsplash.com/photo-1513360309081-36f5e878fc9e?auto=format&fit=crop&q=80&w=400",
+    tag: "Cats",
+    rating: 5
+  },
+  {
+    id: "p7",
+    name: "Premium Bird Seed Mix",
+    category: "food",
+    petType: "bird",
+    price: 12.99,
+    imageUrl: "https://images.unsplash.com/photo-1607990283143-e81e7a2c93ab?auto=format&fit=crop&q=80&w=400",
+    tag: "Birds",
+    rating: 4
+  },
+  {
+    id: "p8",
+    name: "Small Animal Hay feeder",
+    category: "accessories",
+    petType: "small",
+    price: 9.99,
+    imageUrl: "https://images.unsplash.com/photo-1544790103-0870d5072545?auto=format&fit=crop&q=80&w=400",
+    tag: "Hamsters & Rabbits",
+    rating: 5
   }
 ];
 
@@ -59,7 +91,8 @@ const PRODUCTS = [
 // ==========================================
 let state = {
   cart: [], // Array of { productId, quantity }
-  activeFilter: 'all'
+  activeFilter: 'all',
+  petTypeFilter: null
 };
 
 // Toast notification helper
@@ -70,7 +103,7 @@ function showToast(message, type = 'info') {
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
   
-  let icon = '<i class="fa-solid fa-circle-info"></i>';
+  let icon = '<i class="fa-solid fa-paw"></i>';
   if (type === 'success') icon = '<i class="fa-solid fa-circle-check"></i>';
   if (type === 'error') icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
 
@@ -79,13 +112,13 @@ function showToast(message, type = 'info') {
 
   // Remove toast after 4s
   setTimeout(() => {
-    toast.style.animation = 'slideUp 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) reverse';
+    toast.style.animation = 'slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) reverse';
     setTimeout(() => toast.remove(), 400);
   }, 4000);
 }
 
 // ==========================================
-// 3. CART OPERATIONS & RENDERING
+// 3. CART OPERATIONS
 // ==========================================
 const cartDrawer = document.getElementById('cart-drawer');
 const cartOverlay = document.getElementById('cart-overlay');
@@ -95,16 +128,16 @@ const cartEmptyState = document.getElementById('cart-empty-state');
 const cartFooter = document.getElementById('cart-drawer-footer');
 const cartSubtotalPrice = document.getElementById('cart-subtotal-price');
 
-// Open / Close Cart Drawer
+// Open / Close Drawer
 function toggleCart(isOpen) {
   if (isOpen) {
     cartDrawer.classList.add('open');
     cartOverlay.classList.add('open');
-    document.body.style.overflow = 'hidden'; // Lock body scroll
+    document.body.style.overflow = 'hidden';
   } else {
     cartDrawer.classList.remove('open');
     cartOverlay.classList.remove('open');
-    document.body.style.overflow = ''; // Unlock scroll
+    document.body.style.overflow = '';
   }
 }
 
@@ -120,8 +153,9 @@ function addToCart(productId, qty = 1) {
     state.cart.push({ productId, quantity: qty });
   }
 
-  showToast(`${product.name} added to bag.`, 'success');
+  showToast(`${product.name} added to your cart! 🐾`, 'success');
   updateCartUI();
+  toggleCart(true); // Auto-open cart to show update
 }
 
 // Remove Item
@@ -143,7 +177,7 @@ function updateQty(productId, delta) {
   }
 }
 
-// Sync Drawer DOM
+// Sync UI Drawer
 function updateCartUI() {
   const totalItems = state.cart.reduce((sum, item) => sum + item.quantity, 0);
   cartBadgeCount.innerText = totalItems;
@@ -153,7 +187,6 @@ function updateCartUI() {
     cartItemsList.appendChild(cartEmptyState);
     cartFooter.style.display = 'none';
   } else {
-    // Hide empty block, show footer
     if (cartEmptyState.parentNode === cartItemsList) {
       cartEmptyState.remove();
     }
@@ -189,7 +222,6 @@ function updateCartUI() {
         </div>
       `;
 
-      // Bind quantity changes
       itemEl.querySelector('[data-action="minus"]').addEventListener('click', () => updateQty(product.id, -1));
       itemEl.querySelector('[data-action="plus"]').addEventListener('click', () => updateQty(product.id, 1));
       itemEl.querySelector('[data-action="remove"]').addEventListener('click', () => removeFromCart(product.id));
@@ -210,32 +242,50 @@ function renderProductGrid() {
 
   container.innerHTML = '';
 
-  const filteredProducts = state.activeFilter === 'all' 
-    ? PRODUCTS 
-    : PRODUCTS.filter(p => p.category === state.activeFilter);
+  // Apply filters
+  let filteredProducts = PRODUCTS;
+
+  // 1. Filter by category tabs
+  if (state.activeFilter !== 'all') {
+    filteredProducts = filteredProducts.filter(p => p.category === state.activeFilter);
+  }
+
+  // 2. Filter by quick pet type circles
+  if (state.petTypeFilter) {
+    filteredProducts = filteredProducts.filter(p => p.petType === state.petTypeFilter);
+  }
+
+  if (filteredProducts.length === 0) {
+    container.innerHTML = '<div style="grid-column: span 4; text-align: center; padding: 40px; color: var(--text-muted);">No products found matching these categories.</div>';
+    return;
+  }
 
   filteredProducts.forEach(product => {
+    // Generate star icons
+    let starsHtml = '';
+    for (let i = 0; i < 5; i++) {
+      starsHtml += i < product.rating 
+        ? '<i class="fa-solid fa-star"></i>' 
+        : '<i class="fa-regular fa-star"></i>';
+    }
+
     const card = document.createElement('div');
     card.className = 'product-card';
     card.innerHTML = `
       <div class="product-img-wrapper">
-        <img src="${product.imageUrl}" alt="${product.name}" class="product-img">
-        <div class="product-card-overlay">
-          <button class="btn-quick-add" data-id="${product.id}">Quick Add</button>
-        </div>
+        <img src="${product.imageUrl}" alt="${product.name}" class="product-img" loading="lazy">
       </div>
-      <div class="product-info">
-        <div>
-          <h3 class="product-name">${product.name}</h3>
-          <span class="product-tag">${product.tag}</span>
-        </div>
+      <div class="product-tag">${product.tag}</div>
+      <div class="rating-stars">${starsHtml}</div>
+      <h3 class="product-name">${product.name}</h3>
+      <div class="product-footer">
         <span class="product-price">$${product.price.toFixed(2)}</span>
+        <button class="btn-add-cart" data-id="${product.id}"><i class="fa-solid fa-plus"></i></button>
       </div>
     `;
 
-    // Click whole card to open spotlight/drawer or detail (in this case, just quick add)
-    card.querySelector('.btn-quick-add').addEventListener('click', (e) => {
-      e.stopPropagation(); // Avoid double action
+    card.querySelector('.btn-add-cart').addEventListener('click', (e) => {
+      e.stopPropagation();
       addToCart(product.id);
     });
 
@@ -244,28 +294,54 @@ function renderProductGrid() {
 }
 
 // ==========================================
-// 5. EVENT HANDLERS
+// 5. BOOKING MODAL OPERATIONS
+// ==========================================
+const bookingModal = document.getElementById('booking-modal');
+const bookingForm = document.getElementById('booking-form');
+
+function toggleBookingModal(isOpen, preSelectedService = '') {
+  if (isOpen) {
+    bookingModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // Populate service dropdown if passed
+    if (preSelectedService) {
+      document.getElementById('book-service').value = preSelectedService;
+    }
+
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('book-date').min = today;
+  } else {
+    bookingModal.classList.remove('open');
+    document.body.style.overflow = '';
+    bookingForm.reset();
+  }
+}
+
+// ==========================================
+// 6. EVENT LISTENERS
 // ==========================================
 function initEvents() {
-  // Navigation Links Active Style
+  // Navigation scroll behavior
   const header = document.querySelector('.header');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 20) {
-      header.style.backgroundColor = 'rgba(244, 240, 235, 0.98)';
-      header.style.padding = '12px 0px';
+      header.style.backgroundColor = 'rgba(250, 248, 245, 0.98)';
+      header.style.boxShadow = 'var(--shadow-sm)';
     } else {
-      header.style.backgroundColor = 'rgba(244, 240, 235, 0.85)';
-      header.style.padding = '20px 0px';
+      header.style.backgroundColor = 'rgba(250, 248, 245, 0.85)';
+      header.style.boxShadow = 'none';
     }
   });
 
-  // Cart Drawer toggles
+  // Drawer toggles
   document.getElementById('cart-toggle-btn')?.addEventListener('click', () => toggleCart(true));
   document.getElementById('cart-close-btn')?.addEventListener('click', () => toggleCart(false));
   cartOverlay?.addEventListener('click', () => toggleCart(false));
   document.getElementById('cart-empty-shop-btn')?.addEventListener('click', () => toggleCart(false));
 
-  // Category filter tabs
+  // Category filters tabs
   const tabs = document.querySelectorAll('#shop-tabs-container .filter-tab');
   tabs.forEach(tab => {
     tab.addEventListener('click', (e) => {
@@ -276,36 +352,98 @@ function initEvents() {
     });
   });
 
-  // Spotlight product buy button
-  document.getElementById('spotlight-add-btn')?.addEventListener('click', (e) => {
-    const id = e.target.getAttribute('data-id');
-    addToCart(id);
+  // Quick category circles (scroll & filter)
+  const catCircles = document.querySelectorAll('.category-item');
+  catCircles.forEach(circle => {
+    circle.addEventListener('click', (e) => {
+      const type = e.currentTarget.getAttribute('data-filter-cat');
+      
+      // Toggle filter: if same filter is clicked twice, reset
+      if (state.petTypeFilter === type) {
+        state.petTypeFilter = null;
+        e.currentTarget.classList.remove('active-cat');
+      } else {
+        catCircles.forEach(c => c.classList.remove('active-cat'));
+        state.petTypeFilter = type;
+        e.currentTarget.classList.add('active-cat');
+      }
+
+      renderProductGrid();
+
+      // Scroll to shop
+      document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Booking Modal open triggers
+  document.getElementById('nav-book-btn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleBookingModal(true);
+  });
+  document.getElementById('hero-book-btn')?.addEventListener('click', () => toggleBookingModal(true));
+  document.getElementById('booking-close-btn')?.addEventListener('click', () => toggleBookingModal(false));
+
+  // Service Card Booking triggers
+  document.querySelectorAll('.btn-book-service').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const service = e.target.getAttribute('data-service-select');
+      toggleBookingModal(true, service);
+    });
+  });
+
+  // Footer Booking triggers
+  document.querySelectorAll('.open-book-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleBookingModal(true);
+    });
+  });
+
+  // Modal overlay click close
+  bookingModal?.addEventListener('click', (e) => {
+    if (e.target === bookingModal) {
+      toggleBookingModal(false);
+    }
+  });
+
+  // Booking Form Submit
+  bookingForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const serviceName = document.getElementById('book-service').options[document.getElementById('book-service').selectedIndex].text;
+    const petName = document.getElementById('book-pet-name').value;
+    const date = document.getElementById('book-date').value;
+    const time = document.getElementById('book-time').value;
+
+    showToast(`Appointment confirmed! We're excited to see ${petName} for "${serviceName}" on ${date} at ${time}! 🐶✨`, 'success');
+    toggleBookingModal(false);
   });
 
   // Newsletter Form Submit
   document.getElementById('newsletter-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const input = e.target.querySelector('.newsletter-input');
-    showToast(`Thank you! Subscription confirmed for ${input.value}.`, 'success');
+    showToast(`Welcome to the pack! 🐾 10% off code sent to: ${input.value}`, 'success');
     input.value = '';
   });
 
-  // Checkout submit
+  // Checkout order submit
   document.getElementById('checkout-submit-btn')?.addEventListener('click', () => {
-    showToast("Checkout completed! Thank you for ordering from CLAY. 🏺", "success");
+    showToast("Pawsome! Order submitted. Thank you for supporting our shop & local shelters! 🐾💖", "success");
     state.cart = [];
     updateCartUI();
     toggleCart(false);
   });
 
-  // Search mock
-  document.getElementById('search-toggle-btn')?.addEventListener('click', () => {
-    showToast("Our search index is currently offline. Please explore our curated collections!", "info");
+  // Search input mock
+  document.getElementById('search-input')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      showToast("Searching for treats...", "info");
+    }
   });
 }
 
 // ==========================================
-// 6. INITIALIZATION
+// 7. INITIALIZATION
 // ==========================================
 function init() {
   initEvents();
@@ -313,7 +451,6 @@ function init() {
   updateCartUI();
 }
 
-// Run immediately or on load
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
