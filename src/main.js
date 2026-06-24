@@ -9,40 +9,40 @@ const PRODUCTS = [
     name: "Custom Figurine Glass Dome",
     category: "figurine",
     price: 180.00,
-    imageUrl: "/pet_hero.jpg",
-    tag: "Hand-sculpted Clay Model"
+    imageUrl: "/keepsake_dalmatian.jpg",
+    tag: "Smart LED Light Base & Glass Dome"
   },
   {
     id: "p2",
-    name: "Engraved Leather Plaque & QR Frame",
+    name: "Engraved Leather Plaque & QR Easel",
     category: "plaque",
     price: 45.00,
-    imageUrl: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&q=80&w=500",
-    tag: "Easel QR Plaque"
+    imageUrl: "/pet_hero.jpg",
+    tag: "Engraved Nameplate & Memorial QR Link"
   },
   {
     id: "p3",
-    name: "The Keepsake Memorial Kit Combo",
+    name: "The Complete Memorial Dome Combo",
     category: "figurine",
-    price: 210.00,
-    imageUrl: "/pet_hero.jpg",
-    tag: "Dome Figurine + QR Plaque Set"
+    price: 245.00,
+    imageUrl: "/keepsake_schnauzer_frenchie.jpg",
+    tag: "Smart Dome Figurine + QR Easel Set"
   },
   {
     id: "p4",
-    name: "Sterling Noseprint Necklace",
-    category: "jewelry",
-    price: 75.00,
-    imageUrl: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=500",
-    tag: "Engraved Sterling Silver"
+    name: "Classic Wooden Stand Figurine",
+    category: "figurine",
+    price: 135.00,
+    imageUrl: "/keepsake_bulldog.jpg",
+    tag: "Hand-sculpted Clay Model on Hardwood"
   },
   {
     id: "p5",
-    name: "Custom Canvas Memorial Portrait",
+    name: "Pure Moss Garden Memorial Dome",
     category: "figurine",
-    price: 90.00,
-    imageUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=500",
-    tag: "Oil/Watercolor Canvas"
+    price: 165.00,
+    imageUrl: "/keepsake_pug.jpg",
+    tag: "Custom Figurine under Miniature Moss Tree"
   }
 ];
 
