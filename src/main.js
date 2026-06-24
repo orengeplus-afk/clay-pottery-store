@@ -6,83 +6,43 @@ import './style.css';
 const PRODUCTS = [
   {
     id: "p1",
-    name: "Organic Salmon Dog Treats",
-    category: "food",
-    petType: "dog",
-    price: 18.99,
-    imageUrl: "/pet_treats.png",
-    tag: "Dogs",
-    rating: 5
+    name: "Custom Figurine Glass Dome",
+    category: "figurine",
+    price: 180.00,
+    imageUrl: "/pet_hero.jpg",
+    tag: "Hand-sculpted Clay Model"
   },
   {
     id: "p2",
-    name: "Orthopedic Memory Foam Bed",
-    category: "beds",
-    petType: "dog", // also cat
-    price: 64.99,
-    imageUrl: "/pet_bed.png",
-    tag: "Dogs & Cats",
-    rating: 5
+    name: "Engraved Leather Plaque & QR Frame",
+    category: "plaque",
+    price: 45.00,
+    imageUrl: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&q=80&w=500",
+    tag: "Easel QR Plaque"
   },
   {
     id: "p3",
-    name: "Interactive Smart Laser Toy",
-    category: "toys",
-    petType: "cat",
-    price: 24.99,
-    imageUrl: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?auto=format&fit=crop&q=80&w=400",
-    tag: "Cats",
-    rating: 4
+    name: "The Keepsake Memorial Kit Combo",
+    category: "figurine",
+    price: 210.00,
+    imageUrl: "/pet_hero.jpg",
+    tag: "Dome Figurine + QR Plaque Set"
   },
   {
     id: "p4",
-    name: "Self-Cleaning Water Fountain",
-    category: "accessories",
-    petType: "cat", // also dog
-    price: 39.99,
-    imageUrl: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&q=80&w=400",
-    tag: "Dogs & Cats",
-    rating: 5
+    name: "Sterling Noseprint Necklace",
+    category: "jewelry",
+    price: 75.00,
+    imageUrl: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=500",
+    tag: "Engraved Sterling Silver"
   },
   {
     id: "p5",
-    name: "Eco-Friendly Hemp Collar",
-    category: "accessories",
-    petType: "dog",
-    price: 14.99,
-    imageUrl: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&q=80&w=400",
-    tag: "Dogs",
-    rating: 4
-  },
-  {
-    id: "p6",
-    name: "Feather Cat Teaser Toy",
-    category: "toys",
-    petType: "cat",
-    price: 8.49,
-    imageUrl: "https://images.unsplash.com/photo-1513360309081-36f5e878fc9e?auto=format&fit=crop&q=80&w=400",
-    tag: "Cats",
-    rating: 5
-  },
-  {
-    id: "p7",
-    name: "Premium Bird Seed Mix",
-    category: "food",
-    petType: "bird",
-    price: 12.99,
-    imageUrl: "https://images.unsplash.com/photo-1607990283143-e81e7a2c93ab?auto=format&fit=crop&q=80&w=400",
-    tag: "Birds",
-    rating: 4
-  },
-  {
-    id: "p8",
-    name: "Small Animal Hay feeder",
-    category: "accessories",
-    petType: "small",
-    price: 9.99,
-    imageUrl: "https://images.unsplash.com/photo-1544790103-0870d5072545?auto=format&fit=crop&q=80&w=400",
-    tag: "Hamsters & Rabbits",
-    rating: 5
+    name: "Custom Canvas Memorial Portrait",
+    category: "figurine",
+    price: 90.00,
+    imageUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=500",
+    tag: "Oil/Watercolor Canvas"
   }
 ];
 
@@ -91,8 +51,7 @@ const PRODUCTS = [
 // ==========================================
 let state = {
   cart: [], // Array of { productId, quantity }
-  activeFilter: 'all',
-  petTypeFilter: null
+  activeFilter: 'all'
 };
 
 // Toast notification helper
@@ -103,7 +62,7 @@ function showToast(message, type = 'info') {
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
   
-  let icon = '<i class="fa-solid fa-paw"></i>';
+  let icon = '<i class="fa-solid fa-feather-pointed"></i>';
   if (type === 'success') icon = '<i class="fa-solid fa-circle-check"></i>';
   if (type === 'error') icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
 
@@ -112,7 +71,7 @@ function showToast(message, type = 'info') {
 
   // Remove toast after 4s
   setTimeout(() => {
-    toast.style.animation = 'slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) reverse';
+    toast.style.animation = 'slideUp 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) reverse';
     setTimeout(() => toast.remove(), 400);
   }, 4000);
 }
@@ -128,7 +87,7 @@ const cartEmptyState = document.getElementById('cart-empty-state');
 const cartFooter = document.getElementById('cart-drawer-footer');
 const cartSubtotalPrice = document.getElementById('cart-subtotal-price');
 
-// Open / Close Drawer
+// Open / Close Cart Drawer
 function toggleCart(isOpen) {
   if (isOpen) {
     cartDrawer.classList.add('open');
@@ -153,9 +112,8 @@ function addToCart(productId, qty = 1) {
     state.cart.push({ productId, quantity: qty });
   }
 
-  showToast(`${product.name} added to your cart! 🐾`, 'success');
+  showToast(`${product.name} added to shopping bag.`, 'success');
   updateCartUI();
-  toggleCart(true); // Auto-open cart to show update
 }
 
 // Remove Item
@@ -177,7 +135,7 @@ function updateQty(productId, delta) {
   }
 }
 
-// Sync UI Drawer
+// Sync Drawer DOM
 function updateCartUI() {
   const totalItems = state.cart.reduce((sum, item) => sum + item.quantity, 0);
   cartBadgeCount.innerText = totalItems;
@@ -242,49 +200,30 @@ function renderProductGrid() {
 
   container.innerHTML = '';
 
-  // Apply filters
-  let filteredProducts = PRODUCTS;
-
-  // 1. Filter by category tabs
-  if (state.activeFilter !== 'all') {
-    filteredProducts = filteredProducts.filter(p => p.category === state.activeFilter);
-  }
-
-  // 2. Filter by quick pet type circles
-  if (state.petTypeFilter) {
-    filteredProducts = filteredProducts.filter(p => p.petType === state.petTypeFilter);
-  }
-
-  if (filteredProducts.length === 0) {
-    container.innerHTML = '<div style="grid-column: span 4; text-align: center; padding: 40px; color: var(--text-muted);">No products found matching these categories.</div>';
-    return;
-  }
+  const filteredProducts = state.activeFilter === 'all' 
+    ? PRODUCTS 
+    : PRODUCTS.filter(p => p.category === state.activeFilter);
 
   filteredProducts.forEach(product => {
-    // Generate star icons
-    let starsHtml = '';
-    for (let i = 0; i < 5; i++) {
-      starsHtml += i < product.rating 
-        ? '<i class="fa-solid fa-star"></i>' 
-        : '<i class="fa-regular fa-star"></i>';
-    }
-
     const card = document.createElement('div');
     card.className = 'product-card';
     card.innerHTML = `
       <div class="product-img-wrapper">
         <img src="${product.imageUrl}" alt="${product.name}" class="product-img" loading="lazy">
+        <div class="product-card-overlay">
+          <button class="btn-quick-add" data-id="${product.id}">Quick Add</button>
+        </div>
       </div>
-      <div class="product-tag">${product.tag}</div>
-      <div class="rating-stars">${starsHtml}</div>
-      <h3 class="product-name">${product.name}</h3>
-      <div class="product-footer">
+      <div class="product-info">
+        <div>
+          <h3 class="product-name">${product.name}</h3>
+          <span class="product-tag">${product.tag}</span>
+        </div>
         <span class="product-price">$${product.price.toFixed(2)}</span>
-        <button class="btn-add-cart" data-id="${product.id}"><i class="fa-solid fa-plus"></i></button>
       </div>
     `;
 
-    card.querySelector('.btn-add-cart').addEventListener('click', (e) => {
+    card.querySelector('.btn-quick-add').addEventListener('click', (e) => {
       e.stopPropagation();
       addToCart(product.id);
     });
@@ -294,54 +233,28 @@ function renderProductGrid() {
 }
 
 // ==========================================
-// 5. BOOKING MODAL OPERATIONS
-// ==========================================
-const bookingModal = document.getElementById('booking-modal');
-const bookingForm = document.getElementById('booking-form');
-
-function toggleBookingModal(isOpen, preSelectedService = '') {
-  if (isOpen) {
-    bookingModal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-
-    // Populate service dropdown if passed
-    if (preSelectedService) {
-      document.getElementById('book-service').value = preSelectedService;
-    }
-
-    // Set minimum date to today
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('book-date').min = today;
-  } else {
-    bookingModal.classList.remove('open');
-    document.body.style.overflow = '';
-    bookingForm.reset();
-  }
-}
-
-// ==========================================
-// 6. EVENT LISTENERS
+// 5. EVENT HANDLERS
 // ==========================================
 function initEvents() {
-  // Navigation scroll behavior
+  // Navigation Links Active Style
   const header = document.querySelector('.header');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 20) {
-      header.style.backgroundColor = 'rgba(250, 248, 245, 0.98)';
-      header.style.boxShadow = 'var(--shadow-sm)';
+      header.style.backgroundColor = 'rgba(250, 247, 242, 0.98)';
+      header.style.padding = '12px 0px';
     } else {
-      header.style.backgroundColor = 'rgba(250, 248, 245, 0.85)';
-      header.style.boxShadow = 'none';
+      header.style.backgroundColor = 'rgba(250, 247, 242, 0.85)';
+      header.style.padding = '20px 0px';
     }
   });
 
-  // Drawer toggles
+  // Cart Drawer toggles
   document.getElementById('cart-toggle-btn')?.addEventListener('click', () => toggleCart(true));
   document.getElementById('cart-close-btn')?.addEventListener('click', () => toggleCart(false));
   cartOverlay?.addEventListener('click', () => toggleCart(false));
   document.getElementById('cart-empty-shop-btn')?.addEventListener('click', () => toggleCart(false));
 
-  // Category filters tabs
+  // Category filter tabs
   const tabs = document.querySelectorAll('#shop-tabs-container .filter-tab');
   tabs.forEach(tab => {
     tab.addEventListener('click', (e) => {
@@ -352,98 +265,47 @@ function initEvents() {
     });
   });
 
-  // Quick category circles (scroll & filter)
-  const catCircles = document.querySelectorAll('.category-item');
-  catCircles.forEach(circle => {
-    circle.addEventListener('click', (e) => {
-      const type = e.currentTarget.getAttribute('data-filter-cat');
-      
-      // Toggle filter: if same filter is clicked twice, reset
-      if (state.petTypeFilter === type) {
-        state.petTypeFilter = null;
-        e.currentTarget.classList.remove('active-cat');
-      } else {
-        catCircles.forEach(c => c.classList.remove('active-cat'));
-        state.petTypeFilter = type;
-        e.currentTarget.classList.add('active-cat');
-      }
-
-      renderProductGrid();
-
-      // Scroll to shop
-      document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
-    });
-  });
-
-  // Booking Modal open triggers
-  document.getElementById('nav-book-btn')?.addEventListener('click', (e) => {
+  // Consultation Navigation redirect
+  document.getElementById('nav-consult-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
-    toggleBookingModal(true);
-  });
-  document.getElementById('hero-book-btn')?.addEventListener('click', () => toggleBookingModal(true));
-  document.getElementById('booking-close-btn')?.addEventListener('click', () => toggleBookingModal(false));
-
-  // Service Card Booking triggers
-  document.querySelectorAll('.btn-book-service').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const service = e.target.getAttribute('data-service-select');
-      toggleBookingModal(true, service);
-    });
+    document.getElementById('consultation')?.scrollIntoView({ behavior: 'smooth' });
   });
 
-  // Footer Booking triggers
-  document.querySelectorAll('.open-book-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      toggleBookingModal(true);
-    });
-  });
-
-  // Modal overlay click close
-  bookingModal?.addEventListener('click', (e) => {
-    if (e.target === bookingModal) {
-      toggleBookingModal(false);
-    }
-  });
-
-  // Booking Form Submit
-  bookingForm?.addEventListener('submit', (e) => {
+  // Consultation/Order Form Submit
+  document.getElementById('consultation-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const serviceName = document.getElementById('book-service').options[document.getElementById('book-service').selectedIndex].text;
-    const petName = document.getElementById('book-pet-name').value;
-    const date = document.getElementById('book-date').value;
-    const time = document.getElementById('book-time').value;
+    const petName = document.getElementById('order-pet-name').value;
+    const petYears = document.getElementById('order-pet-years').value;
+    const productType = document.getElementById('order-keepsake-type').options[document.getElementById('order-keepsake-type').selectedIndex].text;
 
-    showToast(`Appointment confirmed! We're excited to see ${petName} for "${serviceName}" on ${date} at ${time}! 🐶✨`, 'success');
-    toggleBookingModal(false);
+    showToast(`Consultation query received! We will guide you to craft ${petName}'s (${petYears}) memorial keepsake shortly. 🐾🕊️`, 'success');
+    e.target.reset();
   });
 
   // Newsletter Form Submit
   document.getElementById('newsletter-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const input = e.target.querySelector('.newsletter-input');
-    showToast(`Welcome to the pack! 🐾 10% off code sent to: ${input.value}`, 'success');
+    showToast(`Subscription confirmed for ${input.value}. Warm blessings.`, 'success');
     input.value = '';
   });
 
-  // Checkout order submit
+  // Checkout submit
   document.getElementById('checkout-submit-btn')?.addEventListener('click', () => {
-    showToast("Pawsome! Order submitted. Thank you for supporting our shop & local shelters! 🐾💖", "success");
+    showToast("Order submitted! We will send you custom guidelines via email to start photo collection.", "success");
     state.cart = [];
     updateCartUI();
     toggleCart(false);
   });
 
-  // Search input mock
-  document.getElementById('search-input')?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      showToast("Searching for treats...", "info");
-    }
+  // Search mock
+  document.getElementById('search-toggle-btn')?.addEventListener('click', () => {
+    showToast("Search index is offline. Please browse our memorial collections or start a consultation query!", "info");
   });
 }
 
 // ==========================================
-// 7. INITIALIZATION
+// 6. INITIALIZATION
 // ==========================================
 function init() {
   initEvents();
